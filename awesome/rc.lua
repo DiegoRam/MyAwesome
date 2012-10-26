@@ -10,6 +10,7 @@ require("naughty")
 -- Load Debian menu entries
 require("debian.menu")
 
+--vicious = require("vicious")
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -17,7 +18,7 @@ if awesome.startup_errors then
     naughty.notify({ preset = naughty.config.presets.critical,
                      title = "Oops, there were errors during startup!",
                      text = awesome.startup_errors })
-end
+                 end
 
 -- Handle runtime errors after startup
 do
@@ -74,7 +75,7 @@ layouts =
 tags = {}
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
-    tags[s] = awful.tag({ "term", "ides", "nav", "dbs", "music","scala", "misc" }, s, layouts[2])
+    tags[s] = awful.tag({ "term", "ides", "nav", "dbs", "im" ,"music","scala", "misc" }, s, layouts[2])
 end
 -- }}}
 
@@ -94,7 +95,10 @@ mymainmenu = awful.menu({ items = {
                                     {"Chromiun", "chromium-browser"},
                                     {"Krusader", "krusader"},
                                     {"Scite", "scite"},
+                                    {"Pycharm", "/home/diego/pycharm-2.6.2/bin/pycharm.sh" },
                                     {"Scala Ide","/home/diego/eclipseIn/eclipse"},
+                                    {"----"},
+                                    {"Empathy","empathy"},
                                     {"----"},
                                     { "awesome", myawesomemenu, beautiful.awesome_icon },
                                     {"Debian", debian.menu.Debian_menu.Debian },
@@ -333,6 +337,18 @@ clientbuttons = awful.util.table.join(
 root.keys(globalkeys)
 -- }}}
 
+
+-- Battery
+--require("battery")
+
+--batterywidget = widget({type = "textbox", name = "batterywidget", align = "right" })
+
+--bat_clo = battery.batclosure("BAT0")
+--batterywidget.text = bat_clo()
+--battimer = timer({ timeout = 30 })
+--battimer:add_signal("timeout", function() batterywidget.text = bat_clo() end)
+--battimer:start() 
+
 -- {{{ Rules
 awful.rules.rules = {
     -- All clients will match this rule.
@@ -364,10 +380,13 @@ awful.rules.rules = {
     { rule = { class = "Krusader" } ,
        properties = {tag = tags[1][3]} },
     { rule = { class = "Scite" } ,
-      properties = {tag = tags[1][7]} },
+      properties = {tag = tags[1][8]} },
     { rule = { class = "X-terminal-emulator" } ,
-      properties = {tag = tags[1][1]} }
-
+      properties = {tag = tags[1][1]} },
+   { rule = { class = "jetbrains-pycharm" } ,
+      properties = {tag = tags[1][2]} },
+   { rule = { class = "Empathy" } ,
+      properties = {tag = tags[1][5]} },
 }  
 -- }}}
 
